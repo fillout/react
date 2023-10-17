@@ -1,22 +1,44 @@
-import React, { ReactNode } from "react";
-import { FormParams, useFilloutEmbed } from "./embed.js";
+import React, { ReactNode, useState } from "react";
+import { FormParams, useFilloutEmbed } from "../embed.js";
+import { Loading } from "../Loading.js";
 
 type PopupProps = {
-  flowId: string;
+  filloutId: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
+  isOpen: boolean;
+  onClose: () => void;
 };
 
-export const Popup = ({
-  flowId,
+// This is exposed as an standalone embed component,
+// but can also be used indirectly with PopupButton
+export const Popup = ({ isOpen, ...props }: PopupProps) => {
+  if (!isOpen) return <></>;
+  return <PopupComponent {...props} />;
+};
+
+const PopupComponent = ({
+  filloutId,
   inheritParameters,
   parameters,
-}: PopupProps) => {
-  const embed = useFilloutEmbed({ flowId, inheritParameters, parameters });
-  const onClose = () => alert("close");
+  onClose: _onClose,
+}: Omit<PopupProps, "isOpen">) => {
+  const embed = useFilloutEmbed({
+    filloutId,
+    inheritParameters,
+    parameters,
+  });
+  const [loading, setLoading] = useState(true);
+
+  const [isOpen, setIsOpen] = useState(true);
+  const onClose = () => {
+    if (!isOpen) return;
+    setIsOpen(false);
+    setTimeout(_onClose, 250);
+  };
 
   return (
-    <PopupContainer onClose={onClose}>
+    <PopupContainer isOpen={isOpen} onClose={onClose}>
       {embed && (
         <iframe
           src={embed.iframeUrl}
@@ -27,21 +49,42 @@ export const Popup = ({
             width: "100%",
             height: "100%",
             borderRadius: 10,
+            opacity: !loading ? 1 : 0,
           }}
+          onLoad={() => setLoading(false)}
         />
       )}
 
-      <CloseButton onClick={onClose} />
+      {!loading && <CloseButton onClick={onClose} />}
+
+      {loading && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Loading />
+        </div>
+      )}
     </PopupContainer>
   );
 };
 
 const PopupContainer = ({
   children,
+  isOpen,
   onClose,
 }: {
   children?: ReactNode;
-  onClose?: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }) => (
   <div
     onClick={onClose}
@@ -56,6 +99,7 @@ const PopupContainer = ({
       zIndex: 10000000000000,
       padding: "40px 80px",
       boxSizing: "border-box",
+      opacity: isOpen ? 1 : 0,
     }}
   >
     <div
@@ -71,7 +115,7 @@ const PopupContainer = ({
   </div>
 );
 
-const CloseButton = ({ onClick }: { onClick?: () => void }) => (
+const CloseButton = ({ onClick }: { onClick: () => void }) => (
   <button
     onClick={onClick}
     style={{
@@ -97,11 +141,11 @@ const CloseButton = ({ onClick }: { onClick?: () => void }) => (
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
-      stroke-width="2"
+      strokeWidth="2"
     >
       <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         d="M6 18L18 6M6 6l12 12"
       />
     </svg>
