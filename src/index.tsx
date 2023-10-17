@@ -59,7 +59,7 @@ export const FilloutStandardEmbed = ({
   }
 
   // dynamic resize
-  const [height, setHeight] = useState<number>(400);
+  const [height, setHeight] = useState<number>();
   useEffect(() => {
     if (dynamicResize && embedId) {
       const listener = (event: MessageEvent) => {
@@ -83,11 +83,7 @@ export const FilloutStandardEmbed = ({
   }, [dynamicResize, embedId]);
 
   return (
-    <div
-      style={{
-        position: "relative",
-      }}
-    >
+    <div className="fillout-standard-embed" style={{ height }}>
       {loading && <Loading />}
 
       {embedId && (
@@ -99,7 +95,6 @@ export const FilloutStandardEmbed = ({
           className="fillout-embed-iframe"
           style={{
             opacity: !loading ? 1 : 0,
-            height,
             transition: dynamicResize ? "height 150ms ease" : undefined,
           }}
         />

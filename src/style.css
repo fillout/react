@@ -35,6 +35,12 @@
   }
 }
 
+.fillout-standard-embed {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 .fillout-embed-iframe {
   width: 100%;
   height: 100%;
