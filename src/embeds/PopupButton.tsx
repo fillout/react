@@ -22,7 +22,13 @@ export const PopupButton = ({
 
   return (
     <>
-      <Button text={text} color={color} size={size} float={float} />
+      <Button
+        onClick={() => setIsOpen(true)}
+        text={text}
+        color={color}
+        size={size}
+        float={float}
+      />
 
       <Popup
         filloutId={filloutId}
