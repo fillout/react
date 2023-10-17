@@ -21,12 +21,12 @@ export const FilloutStandardEmbed = ({
   fullScreen,
 }: StandardProps) => {
   const [loading, setLoading] = useState(true);
-  const embed = useFilloutEmbed(
-    filloutId,
+  const embed = useFilloutEmbed({
+    flowId: filloutId,
     inheritParameters,
     parameters,
-    dynamicResize
-  );
+    dynamicResize,
+  });
 
   // dynamic resize
   const [height, setHeight] = useState<number>();

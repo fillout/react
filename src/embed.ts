@@ -11,12 +11,19 @@ const generateEmbedId = () => {
 
 export type FormParams = Record<string, string | undefined>;
 
-export const useFilloutEmbed = (
-  flowId: string,
-  inheritParameters?: boolean,
-  parameters?: FormParams,
-  dynamicResize?: boolean
-) => {
+type EmbedOptions = {
+  flowId: string;
+  inheritParameters?: boolean;
+  parameters?: FormParams;
+  dynamicResize?: boolean;
+};
+
+export const useFilloutEmbed = ({
+  flowId,
+  inheritParameters,
+  parameters,
+  dynamicResize,
+}: EmbedOptions) => {
   const [searchParams, setSearchParams] = useState<URLSearchParams>();
   const [embedId, setEmbedId] = useState<string>();
 
