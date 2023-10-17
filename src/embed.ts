@@ -12,14 +12,14 @@ const generateEmbedId = () => {
 export type FormParams = Record<string, string | undefined>;
 
 type EmbedOptions = {
-  flowId: string;
+  filloutId: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
   dynamicResize?: boolean;
 };
 
 export const useFilloutEmbed = ({
-  flowId,
+  filloutId,
   inheritParameters,
   parameters,
   dynamicResize,
@@ -36,7 +36,7 @@ export const useFilloutEmbed = ({
   if (!searchParams || !embedId) return;
 
   // iframe url
-  const iframeUrl = new URL(FILLOUT_BASE_URL + encodeURIComponent(flowId));
+  const iframeUrl = new URL(FILLOUT_BASE_URL + encodeURIComponent(filloutId));
 
   // inherit query params
   if (inheritParameters && searchParams) {

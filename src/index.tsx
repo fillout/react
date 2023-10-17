@@ -22,7 +22,7 @@ export const FilloutStandardEmbed = ({
 }: StandardProps) => {
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
-    flowId: filloutId,
+    filloutId,
     inheritParameters,
     parameters,
     dynamicResize,
