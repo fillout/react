@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import { FormParams, useFilloutEmbed } from "../embed.js";
-import { Loading } from "../Loading.js";
+import { Loading } from "../components/Loading.js";
 
 type PopupProps = {
   filloutId: string;
