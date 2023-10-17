@@ -1,72 +1,42 @@
 import React, { useState, useEffect } from "react";
-
-const FILLOUT_BASE_URL = "https://forms.fillout.com/t/";
+import { FormParams, useFilloutEmbed } from "./embed.js";
 
 const Loading = () => {
   return <div className="fillout-embed-loading" />;
 };
 
-const generateEmbedId = () => {
-  const min = 10000000000000;
-  const max = 99999999999999;
-  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-  return `${randomNumber}`;
-};
-
 type StandardProps = {
   filloutId: string;
-  parameters?: Record<string, string | undefined>;
   inheritParameters?: boolean;
+  parameters?: FormParams;
   dynamicResize?: boolean;
+  fullScreen?: boolean;
 };
 
 export const FilloutStandardEmbed = ({
   filloutId,
-  parameters,
   inheritParameters,
+  parameters,
   dynamicResize,
+  fullScreen,
 }: StandardProps) => {
-  const [searchParams, setSearchParams] = useState<URLSearchParams>();
-  const [embedId, setEmbedId] = useState<string>();
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setSearchParams(new URLSearchParams(window.location.search));
-    setEmbedId(generateEmbedId());
-  }, []);
-
-  // iframe url
-  const iframeUrl = new URL(FILLOUT_BASE_URL + encodeURIComponent(filloutId));
-
-  // inherit query params
-  if (inheritParameters && searchParams) {
-    for (const [key, value] of searchParams.entries()) {
-      iframeUrl.searchParams.set(key, value);
-    }
-  }
-
-  // parameters prop
-  if (parameters) {
-    for (const [key, value] of Object.entries(parameters)) {
-      if (value) iframeUrl.searchParams.set(key, value);
-    }
-  }
-
-  // misc query params
-  if (embedId) iframeUrl.searchParams.set("fillout-embed-id", embedId);
-  if (dynamicResize) {
-    iframeUrl.searchParams.set("fillout-embed-dynamic-resize", "true");
-  }
+  const embed = useFilloutEmbed(
+    filloutId,
+    inheritParameters,
+    parameters,
+    dynamicResize
+  );
 
   // dynamic resize
   const [height, setHeight] = useState<number>();
   useEffect(() => {
-    if (dynamicResize && embedId) {
+    if (dynamicResize && embed) {
       const listener = (event: MessageEvent) => {
         try {
           if (
-            event.origin === new URL(iframeUrl.toString()).origin &&
-            event.data.embedId === embedId &&
+            event.origin === new URL(embed.iframeUrl.toString()).origin &&
+            event.data.embedId === embed.embedId &&
             event.data.type === "form_resized"
           ) {
             const newHeight = event.data.size;
@@ -80,15 +50,15 @@ export const FilloutStandardEmbed = ({
       window.addEventListener("message", listener);
       return () => window.removeEventListener("message", listener);
     }
-  }, [dynamicResize, embedId]);
+  }, [dynamicResize, embed]);
 
   return (
     <div className="fillout-standard-embed" style={{ height }}>
       {loading && <Loading />}
 
-      {embedId && (
+      {embed && (
         <iframe
-          src={iframeUrl.toString()}
+          src={embed.iframeUrl}
           allow="microphone; camera; geolocation"
           title="Embedded Form"
           onLoad={() => setLoading(false)}
@@ -96,6 +66,7 @@ export const FilloutStandardEmbed = ({
           style={{
             opacity: !loading ? 1 : 0,
             transition: dynamicResize ? "height 150ms ease" : undefined,
+            borderRadius: !fullScreen ? 10 : 0,
           }}
         />
       )}
