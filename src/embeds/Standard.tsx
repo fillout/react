@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FormParams, useFilloutEmbed } from "../embed.js";
-
-const Loading = () => {
-  return <div className="fillout-embed-loading" />;
-};
+import { Loading } from "../components/Loading.js";
 
 type StandardProps = {
   filloutId: string;
@@ -51,8 +48,31 @@ export const Standard = ({
   }, [dynamicResize, embed]);
 
   return (
-    <div className="fillout-standard-embed" style={{ height }}>
-      {loading && <Loading />}
+    <div
+      className="fillout-standard-embed"
+      style={{
+        height: !dynamicResize
+          ? "100%"
+          : typeof height === "number"
+          ? height
+          : 256,
+        transition: dynamicResize ? "height 150ms ease" : undefined,
+      }}
+    >
+      {loading && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100%",
+            minHeight: 256,
+          }}
+        >
+          <Loading />
+        </div>
+      )}
 
       {embed && (
         <iframe
@@ -60,11 +80,13 @@ export const Standard = ({
           allow="microphone; camera; geolocation"
           title="Embedded Form"
           onLoad={() => setLoading(false)}
-          className="fillout-embed-iframe"
           style={{
+            width: !loading ? "100%" : 0,
+            height: !loading ? "100%" : 0,
             opacity: !loading ? 1 : 0,
-            transition: dynamicResize ? "height 150ms ease" : undefined,
             borderRadius: 10,
+            border: 0,
+            minHeight: 256,
           }}
         />
       )}
