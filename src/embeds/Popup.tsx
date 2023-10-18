@@ -33,23 +33,22 @@ export const Popup = ({
 
   return (
     <PopupContainer isOpen={isOpen} onClose={onClose}>
+      {!loading && <CloseButton onClick={onClose} />}
+
       {embed && (
         <iframe
           src={embed.iframeUrl}
           allow="microphone; camera; geolocation"
           title="Embedded Form"
+          className="fillout-embed-popup-iframe"
           style={{
             border: 0,
             width: "100%",
-            height: "100%",
-            borderRadius: 10,
             opacity: !loading ? 1 : 0,
           }}
           onLoad={() => setLoading(false)}
         />
       )}
-
-      {!loading && <CloseButton onClick={onClose} />}
 
       {loading && (
         <div
@@ -82,6 +81,7 @@ const PopupContainer = ({
 }) => (
   <div
     onClick={onClose}
+    className="fillout-embed-popup-container"
     style={{
       position: "fixed",
       top: 0,
@@ -91,13 +91,13 @@ const PopupContainer = ({
       background: "rgba(0, 0, 0, 0.65)",
       transition: "opacity 0.25s ease-in-out",
       zIndex: 10000000000000,
-      padding: "40px 80px",
       boxSizing: "border-box",
       opacity: isOpen ? 1 : 0,
     }}
   >
     <div
       onClick={(e) => e.stopPropagation()}
+      className="fillout-embed-popup-main"
       style={{
         position: "relative",
         width: "100%",
@@ -112,8 +112,8 @@ const PopupContainer = ({
 const CloseButton = ({ onClick }: { onClick: () => void }) => (
   <button
     onClick={onClick}
+    className="fillout-embed-popup-close"
     style={{
-      position: "absolute",
       width: 24,
       height: 24,
       textAlign: "center",
@@ -121,8 +121,6 @@ const CloseButton = ({ onClick }: { onClick: () => void }) => (
       transition: "opacity 0.5s ease-in-out",
       textDecoration: "none",
       color: "white",
-      top: -15,
-      right: -15,
       background: "#171717",
       borderRadius: "50%",
       padding: 6,
