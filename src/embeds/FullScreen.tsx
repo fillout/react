@@ -13,13 +13,12 @@ export const FullScreen = ({
   inheritParameters,
   parameters,
 }: FullScreenProps) => {
+  const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
     filloutId,
     inheritParameters,
     parameters,
   });
-
-  const [loading, setLoading] = useState(true);
 
   return (
     <div

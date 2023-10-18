@@ -21,13 +21,12 @@ export const Slider = ({
   sliderDirection = "right",
   onClose: _onClose,
 }: SliderProps) => {
+  const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
     filloutId,
     inheritParameters,
     parameters,
   });
-
-  const [loading, setLoading] = useState(true);
 
   const [isOpen, setIsOpen] = useState(true);
   const onClose = () => {

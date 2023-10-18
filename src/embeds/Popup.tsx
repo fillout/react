@@ -17,12 +17,12 @@ export const Popup = ({
   parameters,
   onClose: _onClose,
 }: PopupProps) => {
+  const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
     filloutId,
     inheritParameters,
     parameters,
   });
-  const [loading, setLoading] = useState(true);
 
   const [isOpen, setIsOpen] = useState(true);
   const onClose = () => {
