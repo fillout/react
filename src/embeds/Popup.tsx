@@ -96,7 +96,6 @@ const PopupContainer = ({
     }}
   >
     <div
-      onClick={(e) => e.stopPropagation()}
       className="fillout-embed-popup-main"
       style={{
         position: "relative",
@@ -111,7 +110,10 @@ const PopupContainer = ({
 
 const CloseButton = ({ onClick }: { onClick: () => void }) => (
   <button
-    onClick={onClick}
+    onClick={(e) => {
+      e.stopPropagation();
+      onClick();
+    }}
     className="fillout-embed-popup-close"
     style={{
       width: 24,
