@@ -1,0 +1,179 @@
+import React, { ReactNode, useState } from "react";
+import { FormParams, useFilloutEmbed } from "../embed.js";
+import { Loading } from "../components/Loading.js";
+
+export type SliderDirection = "left" | "right";
+
+type SliderProps = {
+  filloutId: string;
+  inheritParameters?: boolean;
+  parameters?: FormParams;
+  sliderDirection?: SliderDirection;
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+// This is exposed as an standalone embed component,
+// but can also be used indirectly with SliderButton
+export const Slider = ({ isOpen, ...props }: SliderProps) => {
+  if (!isOpen) return <></>;
+  return <SliderComponent {...props} />;
+};
+
+const SliderComponent = ({
+  filloutId,
+  inheritParameters,
+  parameters,
+  sliderDirection = "right",
+  onClose: _onClose,
+}: Omit<SliderProps, "isOpen">) => {
+  const embed = useFilloutEmbed({
+    filloutId,
+    inheritParameters,
+    parameters,
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  const [isOpen, setIsOpen] = useState(true);
+  const onClose = () => {
+    if (!isOpen) return;
+    setIsOpen(false);
+    setTimeout(_onClose, 250);
+  };
+
+  const sliderLeft = sliderDirection === "left";
+  const sliderOpen = !loading && isOpen;
+
+  return (
+    <SliderContainer isOpen={isOpen} onClose={onClose}>
+      {loading && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <Loading />
+        </div>
+      )}
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: sliderLeft ? "start" : "end",
+          flexDirection: sliderLeft ? "row" : "row-reverse",
+          alignItems: "center",
+          height: !loading ? "100%" : 0,
+          position: "relative",
+          transitionProperty: sliderLeft ? "left" : "right",
+          transitionDuration: "0.25s",
+          transitionTimingFunction: "ease-in-out",
+          ...(sliderLeft
+            ? {
+                left: sliderOpen ? 0 : "-80%",
+              }
+            : {
+                right: sliderOpen ? 0 : "-80%",
+              }),
+        }}
+      >
+        {embed && (
+          <iframe
+            src={embed.iframeUrl}
+            allow="microphone; camera; geolocation"
+            title="Embedded Form"
+            style={{
+              border: 0,
+              width: !loading ? "80%" : 0,
+              height: !loading ? "100%" : 0,
+              opacity: !loading ? 1 : 0,
+            }}
+            onLoad={() => setLoading(false)}
+          />
+        )}
+
+        {!loading && <CloseButton onClick={onClose} sliderLeft={sliderLeft} />}
+      </div>
+    </SliderContainer>
+  );
+};
+
+const SliderContainer = ({
+  children,
+  isOpen,
+  onClose,
+}: {
+  children: ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+}) => (
+  <div
+    onClick={onClose}
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      background: "rgba(0, 0, 0, 0.65)",
+      transition: "opacity 0.25s ease-in-out",
+      zIndex: 10000000000000,
+      opacity: isOpen ? 1 : 0,
+    }}
+  >
+    {children}
+  </div>
+);
+
+const CloseButton = ({
+  onClick,
+  sliderLeft,
+}: {
+  onClick: () => void;
+  sliderLeft: boolean;
+}) => (
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      onClick();
+    }}
+    style={{
+      border: 0,
+      display: "flex",
+      background: "#171717",
+      color: "white",
+      padding: "20px 4px",
+      ...(sliderLeft
+        ? {
+            borderTopRightRadius: 15,
+            borderBottomRightRadius: 15,
+          }
+        : {
+            borderTopLeftRadius: 15,
+            borderBottomLeftRadius: 15,
+          }),
+    }}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth="2"
+      style={{
+        width: 24,
+        height: 24,
+      }}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M6 18L18 6M6 6l12 12"
+      />
+    </svg>
+  </button>
+);
