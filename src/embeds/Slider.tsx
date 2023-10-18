@@ -147,6 +147,7 @@ const CloseButton = ({
       background: "#171717",
       color: "white",
       padding: "20px 4px",
+      cursor: "pointer",
       ...(sliderLeft
         ? {
             borderTopRightRadius: 15,
