@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FormParams, useFilloutEmbed } from "./embed.js";
+import { FormParams, useFilloutEmbed } from "../embed.js";
 
 const Loading = () => {
   return <div className="fillout-embed-loading" />;
@@ -10,15 +10,13 @@ type StandardProps = {
   inheritParameters?: boolean;
   parameters?: FormParams;
   dynamicResize?: boolean;
-  fullScreen?: boolean;
 };
 
-export const FilloutStandardEmbed = ({
+export const Standard = ({
   filloutId,
   inheritParameters,
   parameters,
   dynamicResize,
-  fullScreen,
 }: StandardProps) => {
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
@@ -66,7 +64,7 @@ export const FilloutStandardEmbed = ({
           style={{
             opacity: !loading ? 1 : 0,
             transition: dynamicResize ? "height 150ms ease" : undefined,
-            borderRadius: !fullScreen ? 10 : 0,
+            borderRadius: 10,
           }}
         />
       )}
