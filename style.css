@@ -34,6 +34,15 @@
   right: -15px;
 }
 
+/* slider */
+.fillout-embed-slider-main {
+  position: relative;
+}
+
+.fillout-embed-slider-close {
+  padding: 20px 4px;
+}
+
 @media screen and (max-width: 480px) {
   /* popup */
   .fillout-embed-popup-container {
@@ -56,6 +65,23 @@
     top: 0;
     right: 0;
     margin: 4px 8px 4px auto;
-    display: block;
+  }
+
+  /* slider */
+  .fillout-embed-slider-main {
+    flex-flow: column-reverse !important;
+    position: unset;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  .fillout-embed-slider-iframe {
+    width: 100% !important;
+  }
+
+  .fillout-embed-slider-close {
+    padding: 6px;
+    border-radius: 50% !important;
+    margin: 4px 8px 4px auto;
   }
 }

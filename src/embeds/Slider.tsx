@@ -55,13 +55,13 @@ export const Slider = ({
       )}
 
       <div
+        className="fillout-embed-slider-main"
         style={{
           display: "flex",
           justifyContent: sliderLeft ? "start" : "end",
           flexDirection: sliderLeft ? "row" : "row-reverse",
           alignItems: "center",
           height: !loading ? "100%" : 0,
-          position: "relative",
           transitionProperty: sliderLeft ? "left" : "right",
           transitionDuration: "0.25s",
           transitionTimingFunction: "ease-in-out",
@@ -79,6 +79,7 @@ export const Slider = ({
             src={embed.iframeUrl}
             allow="microphone; camera; geolocation"
             title="Embedded Form"
+            className="fillout-embed-slider-iframe"
             style={{
               border: 0,
               width: !loading ? "80%" : 0,
@@ -134,12 +135,12 @@ const CloseButton = ({
       e.stopPropagation();
       onClick();
     }}
+    className="fillout-embed-slider-close"
     style={{
       border: 0,
       display: "flex",
       background: "#171717",
       color: "white",
-      padding: "20px 4px",
       cursor: "pointer",
       ...(sliderLeft
         ? {
