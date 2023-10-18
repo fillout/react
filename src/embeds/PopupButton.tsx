@@ -30,13 +30,14 @@ export const PopupButton = ({
         float={float}
       />
 
-      <Popup
-        filloutId={filloutId}
-        inheritParameters={inheritParameters}
-        parameters={parameters}
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
+      {isOpen && (
+        <Popup
+          filloutId={filloutId}
+          inheritParameters={inheritParameters}
+          parameters={parameters}
+          onClose={() => setIsOpen(false)}
+        />
+      )}
     </>
   );
 };

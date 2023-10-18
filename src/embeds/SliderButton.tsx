@@ -32,14 +32,15 @@ export const SliderButton = ({
         float={float}
       />
 
-      <Slider
-        filloutId={filloutId}
-        inheritParameters={inheritParameters}
-        parameters={parameters}
-        sliderDirection={sliderDirection}
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
+      {isOpen && (
+        <Slider
+          filloutId={filloutId}
+          inheritParameters={inheritParameters}
+          parameters={parameters}
+          sliderDirection={sliderDirection}
+          onClose={() => setIsOpen(false)}
+        />
+      )}
     </>
   );
 };

@@ -9,24 +9,18 @@ type SliderProps = {
   inheritParameters?: boolean;
   parameters?: FormParams;
   sliderDirection?: SliderDirection;
-  isOpen: boolean;
   onClose: () => void;
 };
 
 // This is exposed as an standalone embed component,
 // but can also be used indirectly with SliderButton
-export const Slider = ({ isOpen, ...props }: SliderProps) => {
-  if (!isOpen) return <></>;
-  return <SliderComponent {...props} />;
-};
-
-const SliderComponent = ({
+export const Slider = ({
   filloutId,
   inheritParameters,
   parameters,
   sliderDirection = "right",
   onClose: _onClose,
-}: Omit<SliderProps, "isOpen">) => {
+}: SliderProps) => {
   const embed = useFilloutEmbed({
     filloutId,
     inheritParameters,

@@ -6,23 +6,17 @@ type PopupProps = {
   filloutId: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
-  isOpen: boolean;
   onClose: () => void;
 };
 
 // This is exposed as an standalone embed component,
 // but can also be used indirectly with PopupButton
-export const Popup = ({ isOpen, ...props }: PopupProps) => {
-  if (!isOpen) return <></>;
-  return <PopupComponent {...props} />;
-};
-
-const PopupComponent = ({
+export const Popup = ({
   filloutId,
   inheritParameters,
   parameters,
   onClose: _onClose,
-}: Omit<PopupProps, "isOpen">) => {
+}: PopupProps) => {
   const embed = useFilloutEmbed({
     filloutId,
     inheritParameters,
