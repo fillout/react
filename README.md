@@ -50,7 +50,7 @@ export default App;
 ## Popup embed
 This component creates a popup, with a dark background covering the page content behind. Unlike the FullScreen embed, it can be closed using the close button or by clicking outside of the popup.
 
-![popup screenshot](https://github.com/fillout/react/assets/97917457/4128bb96-0185-44e0-9172-ada02f7630e2)
+![popup screenshot](https://prod-fillout-oregon-s3.s3.us-west-2.amazonaws.com/orgid-9948/flowpublicid-foAdHjd1Duus/0d232c8c-d352-44de-91ab-ee829ab70418-fko1grlyaYLFEpwi1s8ixBBZeQ3ou2d4vLiQVfriYxIctfeRRYTqzyQzuZZ57YEOp4oxRoIoF4dK33X6bV7Re6mLKDLCSVvFz3z/popup.png)
 
 You control it using your own state. An `onClose` prop is required, and should be used to unrender the popup.
 
@@ -81,7 +81,7 @@ export default App;
 ## Slider embed
 Similar to the popup embed, this is intended to be rendered conditionally, and requires a function to be passed to the `onClose` prop. The form will slide out from the side of the screen. You can control which direction it comes from using `sliderDirection`, which can be `left` or `right` (default).
 
-![slider screenshot](https://github.com/fillout/react/assets/97917457/96ba6d31-49d9-4781-831e-fec4e062db3d)
+![slider screenshot](https://prod-fillout-oregon-s3.s3.us-west-2.amazonaws.com/orgid-9948/flowpublicid-foAdHjd1Duus/d3cf14e2-a6a1-4ca1-8670-7763e7a20ae0-SkWcSu1ZFm0ecjxVQxdb3kEgtDW5s5SE9LreXH2DT7AAqhO3QkLO5b0Ls61ouUPz7l1iog9KR4Diuwfrwv21YHDks84IxWuRDPN/slider.png)
 
 ```js
 import { FilloutSliderEmbed } from "@fillout/react";
