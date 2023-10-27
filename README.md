@@ -5,9 +5,9 @@ Embed [Fillout](https://fillout.com) forms directly in your React project. TypeS
 Install with `npm i @fillout/react`, and load the stylesheet with `import "@fillout/react/style.css"`
 
 ## Embed components
-There is a component for each embed type. All of them require the `filloutId` prop, which is the id of your form. This code is easy to spot in the url of the editor or the live form, for example, `form.fillout.com/t/foAdHjd1Duus`.
+There is a component for each embed type. All of them require the `filloutId` prop, which is the id of your form. This code is easy to spot in the url of the editor or the live form, for example, `forms.fillout.com/t/foAdHjd1Duus`.
 
-All embed components allow you to pass parameters using the optional `parameters` prop, and you can also use `inheritParameters` to make the form inherit the query parameters from the host page's url.
+All embed components allow you to pass URL parameters using the optional `parameters` prop, and you can also use `inheritParameters` to make the form inherit the parameters from the host page's url.
 
 ## Standard embed
 This one is pretty simple.
