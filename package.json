@@ -1,6 +1,6 @@
 {
   "name": "@fillout/react",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "description": "Embed Fillout forms in your React project",
   "type": "module",
   "main": "dist/index.js",
@@ -9,7 +9,6 @@
     "dist",
     "style.css"
   ],
-  "exports": "./dist/index.js",
   "scripts": {
     "build": "tsc"
   },
