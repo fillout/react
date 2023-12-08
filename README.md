@@ -14,6 +14,7 @@ This one is pretty simple.
 
 ```js
 import { FilloutStandardEmbed } from "@fillout/react";
+import "@fillout/react/style.css";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ The `FilloutFullScreenEmbed` component fills the entire page, with `position: fi
 
 ```js
 import { FilloutFullScreenEmbed } from "@fillout/react";
+import "@fillout/react/style.css";
 
 function App() {
   return (
@@ -57,6 +59,7 @@ You control it using your own state. An `onClose` prop is required, and should b
 ```js
 import { FilloutPopupEmbed } from "@fillout/react";
 import { useState } from "react";
+import "@fillout/react/style.css";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -86,6 +89,7 @@ Similar to the popup embed, this is intended to be rendered conditionally, and r
 ```js
 import { FilloutSliderEmbed } from "@fillout/react";
 import { useState } from "react";
+import "@fillout/react/style.css";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -121,6 +125,7 @@ If you would prefer not to manage the open state of a popup or slider yourself, 
 
 ```js
 import { FilloutSliderEmbedButton } from "@fillout/react";
+import "@fillout/react/style.css";
 
 function App() {
   return (
