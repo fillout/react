@@ -1,4 +1,5 @@
 import React, { ReactNode, useState } from "react";
+import { createPortal } from "react-dom";
 import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
 
@@ -38,7 +39,7 @@ export const Slider = ({
   const sliderLeft = sliderDirection === "left";
   const sliderOpen = !loading && isOpen;
 
-  return (
+  return createPortal(
     <SliderContainer isOpen={isOpen} onClose={onClose}>
       {loading && (
         <div
@@ -92,7 +93,8 @@ export const Slider = ({
 
         {!loading && <CloseButton onClick={onClose} sliderLeft={sliderLeft} />}
       </div>
-    </SliderContainer>
+    </SliderContainer>,
+    document.body
   );
 };
 

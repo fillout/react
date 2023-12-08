@@ -1,4 +1,5 @@
 import React, { ReactNode, useState } from "react";
+import { createPortal } from "react-dom";
 import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
 
@@ -31,7 +32,7 @@ export const Popup = ({
     setTimeout(_onClose, 250);
   };
 
-  return (
+  return createPortal(
     <PopupContainer isOpen={isOpen} onClose={onClose}>
       {!loading && <CloseButton onClick={onClose} />}
 
@@ -66,7 +67,8 @@ export const Popup = ({
           <Loading />
         </div>
       )}
-    </PopupContainer>
+    </PopupContainer>,
+    document.body
   );
 };
 

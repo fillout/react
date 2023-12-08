@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { createPortal } from "react-dom";
 import { FormParams } from "../embed.js";
 import { Slider, SliderDirection } from "./Slider.js";
 import { Button, ButtonProps } from "../components/Button.js";
@@ -33,17 +32,15 @@ export const SliderButton = ({
         float={float}
       />
 
-      {isOpen &&
-        createPortal(
-          <Slider
-            filloutId={filloutId}
-            inheritParameters={inheritParameters}
-            parameters={parameters}
-            sliderDirection={sliderDirection}
-            onClose={() => setIsOpen(false)}
-          />,
-          document.body
-        )}
+      {isOpen && (
+        <Slider
+          filloutId={filloutId}
+          inheritParameters={inheritParameters}
+          parameters={parameters}
+          sliderDirection={sliderDirection}
+          onClose={() => setIsOpen(false)}
+        />
+      )}
     </>
   );
 };

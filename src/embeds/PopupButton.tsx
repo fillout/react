@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { createPortal } from "react-dom";
 import { FormParams } from "../embed.js";
 import { Popup } from "./Popup.js";
 import { Button, ButtonProps } from "../components/Button.js";
@@ -31,16 +30,14 @@ export const PopupButton = ({
         float={float}
       />
 
-      {isOpen &&
-        createPortal(
-          <Popup
-            filloutId={filloutId}
-            inheritParameters={inheritParameters}
-            parameters={parameters}
-            onClose={() => setIsOpen(false)}
-          />,
-          document.body
-        )}
+      {isOpen && (
+        <Popup
+          filloutId={filloutId}
+          inheritParameters={inheritParameters}
+          parameters={parameters}
+          onClose={() => setIsOpen(false)}
+        />
+      )}
     </>
   );
 };
