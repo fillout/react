@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const FILLOUT_BASE_URL = "https://forms.fillout.com/t/";
+const FILLOUT_BASE_URL = "https://forms.fillout.com";
 
 const generateEmbedId = () => {
   const min = 10000000000000;
@@ -13,6 +13,7 @@ export type FormParams = Record<string, string | undefined>;
 
 type EmbedOptions = {
   filloutId: string;
+  domain?: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
   dynamicResize?: boolean;
@@ -20,6 +21,7 @@ type EmbedOptions = {
 
 export const useFilloutEmbed = ({
   filloutId,
+  domain,
   inheritParameters,
   parameters,
   dynamicResize,
@@ -36,7 +38,8 @@ export const useFilloutEmbed = ({
   if (!searchParams || !embedId) return;
 
   // iframe url
-  const iframeUrl = new URL(FILLOUT_BASE_URL + encodeURIComponent(filloutId));
+  const origin = domain ? `https://${domain}` : FILLOUT_BASE_URL;
+  const iframeUrl = new URL(`${origin}/t/${encodeURIComponent(filloutId)}`);
 
   // inherit query params
   if (inheritParameters && searchParams) {

@@ -4,18 +4,21 @@ import { Loading } from "../components/Loading.js";
 
 type FullScreenProps = {
   filloutId: string;
+  domain?: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
 };
 
 export const FullScreen = ({
   filloutId,
+  domain,
   inheritParameters,
   parameters,
 }: FullScreenProps) => {
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
     filloutId,
+    domain,
     inheritParameters,
     parameters,
   });

@@ -7,6 +7,7 @@ export type SliderDirection = "left" | "right";
 
 type SliderProps = {
   filloutId: string;
+  domain?: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
   sliderDirection?: SliderDirection;
@@ -17,6 +18,7 @@ type SliderProps = {
 // but can also be used indirectly with SliderButton
 export const Slider = ({
   filloutId,
+  domain,
   inheritParameters,
   parameters,
   sliderDirection = "right",
@@ -25,6 +27,7 @@ export const Slider = ({
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
     filloutId,
+    domain,
     inheritParameters,
     parameters,
   });

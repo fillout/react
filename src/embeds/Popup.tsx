@@ -5,6 +5,7 @@ import { Loading } from "../components/Loading.js";
 
 type PopupProps = {
   filloutId: string;
+  domain?: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
   onClose: () => void;
@@ -14,6 +15,7 @@ type PopupProps = {
 // but can also be used indirectly with PopupButton
 export const Popup = ({
   filloutId,
+  domain,
   inheritParameters,
   parameters,
   onClose: _onClose,
@@ -21,6 +23,7 @@ export const Popup = ({
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
     filloutId,
+    domain,
     inheritParameters,
     parameters,
   });

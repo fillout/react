@@ -5,6 +5,7 @@ import { Button, ButtonProps } from "../components/Button.js";
 
 type SliderButtonProps = {
   filloutId: string;
+  domain?: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
   sliderDirection?: SliderDirection;
@@ -12,6 +13,7 @@ type SliderButtonProps = {
 
 export const SliderButton = ({
   filloutId,
+  domain,
   inheritParameters,
   parameters,
   sliderDirection,
@@ -35,6 +37,7 @@ export const SliderButton = ({
       {isOpen && (
         <Slider
           filloutId={filloutId}
+          domain={domain}
           inheritParameters={inheritParameters}
           parameters={parameters}
           sliderDirection={sliderDirection}

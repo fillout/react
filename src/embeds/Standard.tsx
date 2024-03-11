@@ -4,6 +4,7 @@ import { Loading } from "../components/Loading.js";
 
 type StandardProps = {
   filloutId: string;
+  domain?: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
   dynamicResize?: boolean;
@@ -11,6 +12,7 @@ type StandardProps = {
 
 export const Standard = ({
   filloutId,
+  domain,
   inheritParameters,
   parameters,
   dynamicResize,
@@ -18,6 +20,7 @@ export const Standard = ({
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
     filloutId,
+    domain,
     inheritParameters,
     parameters,
     dynamicResize,

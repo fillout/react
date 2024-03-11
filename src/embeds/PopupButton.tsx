@@ -5,12 +5,14 @@ import { Button, ButtonProps } from "../components/Button.js";
 
 type PopupButtonProps = {
   filloutId: string;
+  domain?: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
 } & Omit<ButtonProps, "onClick">;
 
 export const PopupButton = ({
   filloutId,
+  domain,
   inheritParameters,
   parameters,
   text,
@@ -33,6 +35,7 @@ export const PopupButton = ({
       {isOpen && (
         <Popup
           filloutId={filloutId}
+          domain={domain}
           inheritParameters={inheritParameters}
           parameters={parameters}
           onClose={() => setIsOpen(false)}
