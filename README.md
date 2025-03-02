@@ -2,6 +2,8 @@
 
 Embed [Fillout](https://fillout.com) forms directly in your React project. TypeScript included, no dependencies :)
 
+*Hint: If you're looking to use the Fillout API in Node.js, try [@fillout/api](https://npmjs.org/package/@fillout/api)!*
+
 ## Setup
 
 Install with `npm i @fillout/react`, and load the stylesheet with `import "@fillout/react/style.css"`
