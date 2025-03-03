@@ -11,6 +11,8 @@ export const useMessageListener = (
 
   useEffect(() => {
     if (embed && enabled) {
+      const debug = location.href.includes("FILLOUT_EMBED_DEBUG");
+
       const listener = (event: MessageEvent) => {
         try {
           if (
@@ -18,8 +20,8 @@ export const useMessageListener = (
             event.data.embedId === embed.embedId &&
             event.data.type === eventName
           ) {
-            if (location.href.includes("FILLOUT_EMBED_DEBUG")) {
-              console.log(["fillout embed", eventName, event.data]);
+            if (debug) {
+              console.log(["fillout embed MESSAGE", eventName, event.data]);
             }
 
             fn(event.data);
@@ -27,8 +29,13 @@ export const useMessageListener = (
         } catch (err) {}
       };
 
+      if (debug) console.log(["fillout embed MOUNT", eventName]);
       window.addEventListener("message", listener);
-      return () => window.removeEventListener("message", listener);
+
+      return () => {
+        if (debug) console.log(["fillout embed UNMOUNT", eventName]);
+        window.removeEventListener("message", listener);
+      };
     }
   }, [embed, eventName, fn, enabled]);
 };
