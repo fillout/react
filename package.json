@@ -1,6 +1,6 @@
 {
   "name": "@fillout/react",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Embed Fillout forms in your React project",
   "license": "MIT",
   "type": "module",

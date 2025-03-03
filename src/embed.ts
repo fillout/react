@@ -63,6 +63,9 @@ export const useFilloutEmbed = ({
 
   return {
     iframeUrl: iframeUrl.toString(),
+    origin,
     embedId,
   };
 };
+
+export type EmbedType = Exclude<ReturnType<typeof useFilloutEmbed>, undefined>;

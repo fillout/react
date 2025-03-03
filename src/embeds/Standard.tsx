@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
+import { useMessageListener } from "./messages.js";
 
 type StandardProps = {
   filloutId: string;
@@ -28,27 +29,17 @@ export const Standard = ({
 
   // dynamic resize
   const [height, setHeight] = useState<number>();
-  useEffect(() => {
-    if (dynamicResize && embed) {
-      const listener = (event: MessageEvent) => {
-        try {
-          if (
-            event.origin === new URL(embed.iframeUrl.toString()).origin &&
-            event.data.embedId === embed.embedId &&
-            event.data.type === "form_resized"
-          ) {
-            const newHeight = event.data.size;
-            if (typeof newHeight === "number") {
-              setHeight(newHeight);
-            }
-          }
-        } catch (err) {}
-      };
-
-      window.addEventListener("message", listener);
-      return () => window.removeEventListener("message", listener);
-    }
-  }, [dynamicResize, embed]);
+  useMessageListener(
+    embed,
+    "form_resized",
+    (data) => {
+      const newHeight = data.size;
+      if (typeof newHeight === "number") {
+        setHeight(newHeight);
+      }
+    },
+    { disabled: !dynamicResize }
+  );
 
   return (
     <div
