@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
-import { useMessageListener } from "./messages.js";
+import { useMessageListener } from "../messages.js";
 
 type StandardProps = {
   filloutId: string;

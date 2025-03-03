@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { EmbedType } from "../embed.js";
+import { EmbedType } from "./embed.js";
 
 export const useMessageListener = (
   embed: EmbedType | undefined,
