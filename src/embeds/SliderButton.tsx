@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FormParams } from "../embed.js";
 import { Slider, SliderDirection } from "./Slider.js";
 import { Button, ButtonProps } from "../components/Button.js";
+import { EventProps } from "../events.js";
 
 type SliderButtonProps = {
   filloutId: string;
@@ -9,7 +10,8 @@ type SliderButtonProps = {
   inheritParameters?: boolean;
   parameters?: FormParams;
   sliderDirection?: SliderDirection;
-} & Omit<ButtonProps, "onClick">;
+} & EventProps &
+  Omit<ButtonProps, "onClick">;
 
 export const SliderButton = ({
   filloutId,
@@ -17,6 +19,11 @@ export const SliderButton = ({
   inheritParameters,
   parameters,
   sliderDirection,
+
+  onInit,
+  onPageChange,
+  onSubmit,
+
   text,
   color,
   size,
@@ -42,6 +49,9 @@ export const SliderButton = ({
           parameters={parameters}
           sliderDirection={sliderDirection}
           onClose={() => setIsOpen(false)}
+          onInit={onInit}
+          onPageChange={onPageChange}
+          onSubmit={onSubmit}
         />
       )}
     </>

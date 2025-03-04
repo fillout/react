@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from "react";
 import { createPortal } from "react-dom";
 import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
+import { EventProps, useFilloutEvents } from "../events.js";
 
 export type SliderDirection = "left" | "right";
 
@@ -12,7 +13,7 @@ type SliderProps = {
   parameters?: FormParams;
   sliderDirection?: SliderDirection;
   onClose: () => void;
-};
+} & EventProps;
 
 // This is exposed as an standalone embed component,
 // but can also be used indirectly with SliderButton
@@ -23,6 +24,10 @@ export const Slider = ({
   parameters,
   sliderDirection = "right",
   onClose: _onClose,
+
+  onInit,
+  onPageChange,
+  onSubmit,
 }: SliderProps) => {
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
@@ -31,6 +36,8 @@ export const Slider = ({
     inheritParameters,
     parameters,
   });
+
+  useFilloutEvents(embed, { onInit, onPageChange, onSubmit });
 
   const [isOpen, setIsOpen] = useState(true);
   const onClose = () => {

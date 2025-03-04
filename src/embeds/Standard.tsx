@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
 import { useMessageListener } from "../messages.js";
+import { EventProps, useFilloutEvents } from "../events.js";
 
 type StandardProps = {
   filloutId: string;
@@ -9,7 +10,7 @@ type StandardProps = {
   inheritParameters?: boolean;
   parameters?: FormParams;
   dynamicResize?: boolean;
-};
+} & EventProps;
 
 export const Standard = ({
   filloutId,
@@ -17,6 +18,10 @@ export const Standard = ({
   inheritParameters,
   parameters,
   dynamicResize,
+
+  onInit,
+  onPageChange,
+  onSubmit,
 }: StandardProps) => {
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
@@ -26,6 +31,8 @@ export const Standard = ({
     parameters,
     dynamicResize,
   });
+
+  useFilloutEvents(embed, { onInit, onPageChange, onSubmit });
 
   // dynamic resize
   const [height, setHeight] = useState<number>();

@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from "react";
 import { createPortal } from "react-dom";
 import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
+import { EventProps, useFilloutEvents } from "../events.js";
 
 type PopupProps = {
   filloutId: string;
@@ -9,7 +10,7 @@ type PopupProps = {
   inheritParameters?: boolean;
   parameters?: FormParams;
   onClose: () => void;
-};
+} & EventProps;
 
 // This is exposed as an standalone embed component,
 // but can also be used indirectly with PopupButton
@@ -19,6 +20,10 @@ export const Popup = ({
   inheritParameters,
   parameters,
   onClose: _onClose,
+
+  onInit,
+  onPageChange,
+  onSubmit,
 }: PopupProps) => {
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
@@ -27,6 +32,8 @@ export const Popup = ({
     inheritParameters,
     parameters,
   });
+
+  useFilloutEvents(embed, { onInit, onPageChange, onSubmit });
 
   const [isOpen, setIsOpen] = useState(true);
   const onClose = () => {
