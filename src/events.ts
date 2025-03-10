@@ -13,21 +13,21 @@ export const useFilloutEvents = (
 ) => {
   useMessageListener(
     embed,
-    "session_init",
+    "form_init",
     (data) => events.onInit?.(data.submissionUuid),
     { disabled: !events.onInit }
   );
 
   useMessageListener(
     embed,
-    "step_change",
+    "page_change",
     (data) => events.onPageChange?.(data.submissionUuid, data.stepId),
     { disabled: !events.onPageChange }
   );
 
   useMessageListener(
     embed,
-    "session_submit",
+    "form_submit",
     (data) => events.onSubmit?.(data.submissionUuid),
     { disabled: !events.onPageChange }
   );
