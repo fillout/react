@@ -4,6 +4,16 @@ Embed [Fillout](https://fillout.com) forms directly in your React project. TypeS
 
 *Hint: If you're looking to use the Fillout API in Node.js, try [@fillout/api](https://npmjs.org/package/@fillout/api)!*
 
+- [Setup](#setup)
+- [Embed components](#embed-components)
+  - [Standard embed](#standard-embed)
+  - [FullScreen embed](#fullscreen-embed)
+  - [Popup embed](#popup-embed)
+  - [Slider embed](#slider-embed)
+  - [Popup and Slider embed buttons](#popup-and-slider-embed-buttons)
+- [Listening for form events](#listening-for-form-events)
+- [Custom domains](#custom-domains)
+
 ## Setup
 
 Install with `npm i @fillout/react`, and load the stylesheet with `import "@fillout/react/style.css"`
@@ -14,7 +24,7 @@ There is a component for each embed type. All of them require the `filloutId` pr
 
 All embed components allow you to pass URL parameters using the optional `parameters` prop, and you can also use `inheritParameters` to make the form inherit the parameters from the host page's url.
 
-## Standard embed
+### Standard embed
 
 This one is pretty simple.
 
@@ -40,7 +50,7 @@ export default App;
 
 If you'd rather not set the embed height manually and instead have it expand to the form size, use the `dynamicResize` prop.
 
-## FullScreen embed
+### FullScreen embed
 
 The `FilloutFullScreenEmbed` component fills the entire page, with `position: fixed`.
 
@@ -55,7 +65,7 @@ function App() {
 export default App;
 ```
 
-## Popup embed
+### Popup embed
 
 This component creates a popup, with a dark background covering the page content behind. Unlike the FullScreen embed, it can be closed using the close button or by clicking outside of the popup.
 
@@ -88,7 +98,7 @@ function App() {
 export default App;
 ```
 
-## Slider embed
+### Slider embed
 
 Similar to the popup embed, this is intended to be rendered conditionally, and requires a function to be passed to the `onClose` prop. The form will slide out from the side of the screen. You can control which direction it comes from using `sliderDirection`, which can be `left` or `right` (default).
 
@@ -124,7 +134,7 @@ function App() {
 export default App;
 ```
 
-## Popup and Slider embed buttons
+### Popup and Slider embed buttons
 
 If you would prefer not to manage the open state of a popup or slider yourself, you can use `FilloutPopupEmbedButton` or `FilloutSliderEmbedButton`. This will render a button that opens the embed when clicked. These components take the same props as their standalone counterparts (except for `onClose`), but have some extra optional props to customize the button.
 
@@ -158,6 +168,45 @@ export default App;
 ```
 
 If you need greater control over the button appearance, you can just make your own and conditionally render the standalone embed components.
+
+## Listening for form events
+You can listen for certain form events using the `onInit`, `onPageChange` and `onSubmit` props. Each of these give the submission UUID as the first parameter, and the `onPageChange` prop gives the page ID as the second parameter.
+
+```js
+import { FilloutStandardEmbed } from "@fillout/react";
+
+function App() {
+  return (
+    <FilloutStandardEmbed
+      filloutId="4SVaJQNVdrus"
+      dynamicResize
+
+      onInit={(submissionUuid) => {
+        console.log(
+          `User started filling out the form (submission ID: ${submissionUuid})`
+        );
+      }}
+
+      onPageChange={(submissionUuid, pageId) => {
+        if (pageId === "qTcp") {
+          console.log("User is on the review step");
+        }
+      }}
+
+      onSubmit={async (submissionUuid) => {
+        const email = await doSomethingOnYourServer(submissionUuid);
+        console.log(`${email} finished filling out the form`);
+      }}
+    />
+  );
+}
+
+export default App;
+```
+
+This can be used in conjunction with the [@fillout/api](https://npmjs.org/package/@fillout/api) package on your server to get information about the structure of your form and to fetch field values once you have the submission UUID.
+
+> ⚠️ The `onPageChange` may be triggered for any page on your form, including the starting page when the embed first loads. You should always check the page ID instead of making assumptions about where the user is in the form just because the function was triggered.
 
 ## Custom domains
 
