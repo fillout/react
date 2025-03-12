@@ -174,6 +174,7 @@ You can listen for certain form events using the `onInit`, `onPageChange` and `o
 
 ```js
 import { FilloutStandardEmbed } from "@fillout/react";
+import "@fillout/react/style.css";
 
 function App() {
   return (
