@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useState, CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
@@ -10,6 +10,7 @@ type PopupProps = {
   inheritParameters?: boolean;
   parameters?: FormParams;
   onClose: () => void;
+  style?: CSSProperties;
 } & EventProps;
 
 // This is exposed as an standalone embed component,
@@ -20,6 +21,7 @@ export const Popup = ({
   inheritParameters,
   parameters,
   onClose: _onClose,
+  style,
 
   onInit,
   onPageChange,
@@ -43,7 +45,7 @@ export const Popup = ({
   };
 
   return createPortal(
-    <PopupContainer isOpen={isOpen} onClose={onClose}>
+    <PopupContainer isOpen={isOpen} onClose={onClose} style={style}>
       {!loading && <CloseButton onClick={onClose} />}
 
       {embed && (
@@ -86,10 +88,12 @@ const PopupContainer = ({
   children,
   isOpen,
   onClose,
+  style,
 }: {
   children?: ReactNode;
   isOpen: boolean;
   onClose: () => void;
+  style?: CSSProperties;
 }) => (
   <div
     onClick={onClose}
@@ -113,6 +117,9 @@ const PopupContainer = ({
         position: "relative",
         width: "100%",
         height: "100%",
+        maxWidth: "100%",
+        maxHeight: "100%",
+        ...style,
       }}
     >
       {children}
@@ -135,7 +142,6 @@ const CloseButton = ({ onClick }: { onClick: () => void }) => (
       transition: "opacity 0.5s ease-in-out",
       textDecoration: "none",
       color: "white",
-      background: "#171717",
       borderRadius: "50%",
       padding: 6,
       boxSizing: "content-box",

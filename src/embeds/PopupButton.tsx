@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { FormParams } from "../embed.js";
 import { Popup } from "./Popup.js";
 import { Button, ButtonProps } from "../components/Button.js";
@@ -9,6 +9,7 @@ type PopupButtonProps = {
   domain?: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
+  style?: CSSProperties;
 } & EventProps &
   Omit<ButtonProps, "onClick">;
 
@@ -17,6 +18,7 @@ export const PopupButton = ({
   domain,
   inheritParameters,
   parameters,
+  style,
 
   onInit,
   onPageChange,
@@ -49,6 +51,7 @@ export const PopupButton = ({
           onInit={onInit}
           onPageChange={onPageChange}
           onSubmit={onSubmit}
+          style={style}
         />
       )}
     </>

@@ -22,6 +22,11 @@
   position: absolute;
   top: -15px;
   right: -15px;
+  background: #171717;
+}
+
+.fillout-embed-popup-close:hover {
+  background: #272727;
 }
 
 /* slider */
