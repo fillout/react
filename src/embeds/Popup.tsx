@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, CSSProperties } from "react";
+import React, { ReactNode, useState } from "react";
 import { createPortal } from "react-dom";
 import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
@@ -10,7 +10,8 @@ type PopupProps = {
   inheritParameters?: boolean;
   parameters?: FormParams;
   onClose: () => void;
-  style?: CSSProperties;
+  width?: number | string;
+  height?: number | string;
 } & EventProps;
 
 // This is exposed as an standalone embed component,
@@ -21,7 +22,8 @@ export const Popup = ({
   inheritParameters,
   parameters,
   onClose: _onClose,
-  style,
+  width,
+  height,
 
   onInit,
   onPageChange,
@@ -45,7 +47,12 @@ export const Popup = ({
   };
 
   return createPortal(
-    <PopupContainer isOpen={isOpen} onClose={onClose} style={style}>
+    <PopupContainer
+      isOpen={isOpen}
+      onClose={onClose}
+      width={width}
+      height={height}
+    >
       {!loading && <CloseButton onClick={onClose} />}
 
       {embed && (
@@ -88,12 +95,14 @@ const PopupContainer = ({
   children,
   isOpen,
   onClose,
-  style,
+  width,
+  height,
 }: {
   children?: ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  style?: CSSProperties;
+  width?: number | string;
+  height?: number | string;
 }) => (
   <div
     onClick={onClose}
@@ -109,17 +118,19 @@ const PopupContainer = ({
       zIndex: 10000000000000,
       boxSizing: "border-box",
       opacity: isOpen ? 1 : 0,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
     }}
   >
     <div
       className="fillout-embed-popup-main"
       style={{
         position: "relative",
-        width: "100%",
-        height: "100%",
+        width: width || "100%",
+        height: height || "100%",
         maxWidth: "100%",
         maxHeight: "100%",
-        ...style,
       }}
     >
       {children}
