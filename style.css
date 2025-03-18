@@ -47,6 +47,8 @@
   .fillout-embed-popup-main {
     display: flex;
     flex-flow: column;
+    width: 100% !important;
+    height: 100% !important;
   }
 
   .fillout-embed-popup-iframe {

@@ -114,6 +114,7 @@ const PopupContainer = ({
       width: "100%",
       height: "100%",
       background: "rgba(0, 0, 0, 0.65)",
+      backdropFilter: "blur(4px)",
       transition: "opacity 0.25s ease-in-out",
       zIndex: 10000000000000,
       boxSizing: "border-box",
