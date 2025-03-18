@@ -1,18 +1,41 @@
 import React from "react";
 
 export const Loading = () => (
-  <div
-    style={{
-      border: "6px solid #aaa",
-      borderRadius: "50%",
-      borderTop: "6px solid #fff",
-      width: 20,
-      height: 20,
-      animation: "fillout-embed-loading-spin 2s linear infinite",
-      WebkitAnimation: "fillout-embed-loading-spin 2s linear infinite", // Safari
+  <div>
+    <div
+      style={{
+        color: "white",
+        fontSize: 24,
+        lineHeight: "24px",
+        fontWeight: 600,
+        marginBottom: 16,
+        textAlign: "center",
+        fontFamily: "sans-serif",
+      }}
+    >
+      Loading
+    </div>
 
-      // Important - e.g. Webflow applies a box sizing that messes this up
-      boxSizing: "content-box",
-    }}
-  />
+    <div
+      style={{
+        height: 20,
+        width: 150,
+        display: "flex",
+        position: "relative",
+        alignItems: "center",
+        justifyContent: "start",
+      }}
+    >
+      <div
+        style={{
+          boxShadow: "0px 5px 40px -1px #ffffffcc",
+          borderRadius: 10,
+          background: "white",
+          height: 7,
+          width: 0,
+          animation: "fillout-embed-loading 1s ease forwards",
+        }}
+      />
+    </div>
+  </div>
 );
