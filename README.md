@@ -74,8 +74,8 @@ This component creates a popup, with a dark background covering the page content
 You control it using your own state. The `isOpen` and `onClose` props are required.
 
 ```js
-import { FilloutPopupEmbed } from "@fillout/react";
 import { useState } from "react";
+import { FilloutPopupEmbed } from "@fillout/react";
 import "@fillout/react/style.css";
 
 function App() {
@@ -104,8 +104,8 @@ Similar to the popup embed, this is intended to be used alongside your own butto
 ![slider screenshot](https://prod-fillout-oregon-s3.s3.us-west-2.amazonaws.com/orgid-9948/flowpublicid-foAdHjd1Duus/d3cf14e2-a6a1-4ca1-8670-7763e7a20ae0-SkWcSu1ZFm0ecjxVQxdb3kEgtDW5s5SE9LreXH2DT7AAqhO3QkLO5b0Ls61ouUPz7l1iog9KR4Diuwfrwv21YHDks84IxWuRDPN/slider.png)
 
 ```js
-import { FilloutSliderEmbed } from "@fillout/react";
 import { useState } from "react";
+import { FilloutSliderEmbed } from "@fillout/react";
 import "@fillout/react/style.css";
 
 function App() {
