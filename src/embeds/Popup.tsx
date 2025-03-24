@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
@@ -9,6 +9,7 @@ type PopupProps = {
   domain?: string;
   inheritParameters?: boolean;
   parameters?: FormParams;
+  isOpen: boolean;
   onClose: () => void;
   width?: number | string;
   height?: number | string;
@@ -17,18 +18,50 @@ type PopupProps = {
 // This is exposed as an standalone embed component,
 // but can also be used indirectly with PopupButton
 export const Popup = ({
+  isOpen: _isOpen,
+  onClose: _onClose,
+  width,
+  height,
+  ...props
+}: PopupProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    if (_isOpen) setTimeout(() => setIsOpen(true), 10);
+    else setIsOpen(false);
+  }, [_isOpen]);
+
+  const onClose = () => {
+    if (!isOpen) return;
+    setIsOpen(false);
+    setTimeout(_onClose, 250);
+  };
+
+  return createPortal(
+    <PopupContainer
+      isOpen={_isOpen}
+      isOpenAnimate={isOpen}
+      onClose={onClose}
+      width={width}
+      height={height}
+    >
+      {/* _isOpen should be true from the entry animation starting to the exit animation ending */}
+      {_isOpen && <PopupContent onClose={onClose} {...props} />}
+    </PopupContainer>,
+    document.body
+  );
+};
+
+const PopupContent = ({
   filloutId,
   domain,
   inheritParameters,
   parameters,
-  onClose: _onClose,
-  width,
-  height,
+  onClose,
 
   onInit,
   onPageChange,
   onSubmit,
-}: PopupProps) => {
+}: Omit<PopupProps, "isOpen" | "width" | "height">) => {
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
     filloutId,
@@ -39,20 +72,8 @@ export const Popup = ({
 
   useFilloutEvents(embed, { onInit, onPageChange, onSubmit });
 
-  const [isOpen, setIsOpen] = useState(true);
-  const onClose = () => {
-    if (!isOpen) return;
-    setIsOpen(false);
-    setTimeout(_onClose, 250);
-  };
-
-  return createPortal(
-    <PopupContainer
-      isOpen={isOpen}
-      onClose={onClose}
-      width={width}
-      height={height}
-    >
+  return (
+    <>
       {!loading && <CloseButton onClick={onClose} />}
 
       {embed && (
@@ -86,20 +107,21 @@ export const Popup = ({
           <Loading />
         </div>
       )}
-    </PopupContainer>,
-    document.body
+    </>
   );
 };
 
 const PopupContainer = ({
   children,
   isOpen,
+  isOpenAnimate,
   onClose,
   width,
   height,
 }: {
   children?: ReactNode;
   isOpen: boolean;
+  isOpenAnimate: boolean;
   onClose: () => void;
   width?: number | string;
   height?: number | string;
@@ -118,8 +140,8 @@ const PopupContainer = ({
       transition: "opacity 0.25s ease-in-out",
       zIndex: 10000000000000,
       boxSizing: "border-box",
-      opacity: isOpen ? 1 : 0,
-      display: "flex",
+      opacity: isOpenAnimate ? 1 : 0,
+      display: isOpen ? "flex" : "none",
       justifyContent: "center",
       alignItems: "center",
     }}

@@ -43,20 +43,19 @@ export const PopupButton = ({
         float={float}
       />
 
-      {isOpen && (
-        <Popup
-          filloutId={filloutId}
-          domain={domain}
-          inheritParameters={inheritParameters}
-          parameters={parameters}
-          onClose={() => setIsOpen(false)}
-          onInit={onInit}
-          onPageChange={onPageChange}
-          onSubmit={onSubmit}
-          width={width}
-          height={height}
-        />
-      )}
+      <Popup
+        filloutId={filloutId}
+        domain={domain}
+        inheritParameters={inheritParameters}
+        parameters={parameters}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onInit={onInit}
+        onPageChange={onPageChange}
+        onSubmit={onSubmit}
+        width={width}
+        height={height}
+      />
     </>
   );
 };
