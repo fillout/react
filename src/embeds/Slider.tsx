@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
@@ -12,23 +12,50 @@ type SliderProps = {
   inheritParameters?: boolean;
   parameters?: FormParams;
   sliderDirection?: SliderDirection;
+  isOpen: boolean;
   onClose: () => void;
 } & EventProps;
 
-// This is exposed as an standalone embed component,
+// This is exposed as a standalone embed component,
 // but can also be used indirectly with SliderButton
 export const Slider = ({
+  isOpen: _isOpen,
+  onClose: _onClose,
+  ...props
+}: SliderProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    if (_isOpen) setTimeout(() => setIsOpen(true), 10);
+    else setIsOpen(false);
+  }, [_isOpen]);
+
+  const onClose = () => {
+    if (!isOpen) return;
+    setIsOpen(false);
+    setTimeout(_onClose, 250);
+  };
+
+  return createPortal(
+    <SliderContainer isOpen={_isOpen} isOpenAnimate={isOpen} onClose={onClose}>
+      {/* _isOpen should be true from the entry animation starting to the exit animation ending */}
+      {_isOpen && <SliderContent onClose={onClose} {...props} />}
+    </SliderContainer>,
+    document.body
+  );
+};
+
+const SliderContent = ({
   filloutId,
   domain,
   inheritParameters,
   parameters,
   sliderDirection = "right",
-  onClose: _onClose,
+  onClose,
 
   onInit,
   onPageChange,
   onSubmit,
-}: SliderProps) => {
+}: Omit<SliderProps, "isOpen">) => {
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
     filloutId,
@@ -39,18 +66,11 @@ export const Slider = ({
 
   useFilloutEvents(embed, { onInit, onPageChange, onSubmit });
 
-  const [isOpen, setIsOpen] = useState(true);
-  const onClose = () => {
-    if (!isOpen) return;
-    setIsOpen(false);
-    setTimeout(_onClose, 250);
-  };
-
   const sliderLeft = sliderDirection === "left";
-  const sliderOpen = !loading && isOpen;
+  const sliderOpen = !loading;
 
-  return createPortal(
-    <SliderContainer isOpen={isOpen} onClose={onClose}>
+  return (
+    <>
       {loading && (
         <div
           style={{
@@ -103,18 +123,19 @@ export const Slider = ({
 
         {!loading && <CloseButton onClick={onClose} sliderLeft={sliderLeft} />}
       </div>
-    </SliderContainer>,
-    document.body
+    </>
   );
 };
 
 const SliderContainer = ({
   children,
   isOpen,
+  isOpenAnimate,
   onClose,
 }: {
   children: ReactNode;
   isOpen: boolean;
+  isOpenAnimate: boolean;
   onClose: () => void;
 }) => (
   <div
@@ -128,7 +149,8 @@ const SliderContainer = ({
       background: "rgba(0, 0, 0, 0.65)",
       transition: "opacity 0.25s ease-in-out",
       zIndex: 10000000000000,
-      opacity: isOpen ? 1 : 0,
+      opacity: isOpenAnimate ? 1 : 0,
+      display: isOpen ? "block" : "none",
     }}
   >
     {children}

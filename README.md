@@ -2,7 +2,7 @@
 
 Embed [Fillout](https://fillout.com) forms directly in your React project. TypeScript included, no dependencies :)
 
-*Hint: If you're looking to use the Fillout API in Node.js, try [@fillout/api](https://npmjs.org/package/@fillout/api)!*
+_Hint: If you're looking to use the Fillout API in Node.js, try [@fillout/api](https://npmjs.org/package/@fillout/api)!_
 
 - [Setup](#setup)
 - [Embed components](#embed-components)
@@ -71,7 +71,7 @@ This component creates a popup, with a dark background covering the page content
 
 ![popup screenshot](https://prod-fillout-oregon-s3.s3.us-west-2.amazonaws.com/orgid-9948/flowpublicid-foAdHjd1Duus/0d232c8c-d352-44de-91ab-ee829ab70418-fko1grlyaYLFEpwi1s8ixBBZeQ3ou2d4vLiQVfriYxIctfeRRYTqzyQzuZZ57YEOp4oxRoIoF4dK33X6bV7Re6mLKDLCSVvFz3z/popup.png)
 
-You control it using your own state. An `onClose` prop is required, and should be used to unrender the popup.
+You control it using your own state. The `isOpen` and `onClose` props are required.
 
 ```js
 import { FilloutPopupEmbed } from "@fillout/react";
@@ -85,12 +85,11 @@ function App() {
     <>
       <button onClick={() => setIsOpen(true)}>Schedule a call</button>
 
-      {isOpen && (
-        <FilloutPopupEmbed
-          filloutId="foAdHjd1Duus"
-          onClose={() => setIsOpen(false)}
-        />
-      )}
+      <FilloutPopupEmbed
+        filloutId="foAdHjd1Duus"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
     </>
   );
 }
@@ -100,7 +99,7 @@ export default App;
 
 ### Slider embed
 
-Similar to the popup embed, this is intended to be rendered conditionally, and requires a function to be passed to the `onClose` prop. The form will slide out from the side of the screen. You can control which direction it comes from using `sliderDirection`, which can be `left` or `right` (default).
+Similar to the popup embed, this is intended to be used alongside your own button and state, so the component requires `isOpen` and `onClose` props. The form will slide out from the side of the screen. You can control which direction it comes from using `sliderDirection`, which can be `left` or `right` (default).
 
 ![slider screenshot](https://prod-fillout-oregon-s3.s3.us-west-2.amazonaws.com/orgid-9948/flowpublicid-foAdHjd1Duus/d3cf14e2-a6a1-4ca1-8670-7763e7a20ae0-SkWcSu1ZFm0ecjxVQxdb3kEgtDW5s5SE9LreXH2DT7AAqhO3QkLO5b0Ls61ouUPz7l1iog9KR4Diuwfrwv21YHDks84IxWuRDPN/slider.png)
 
@@ -116,17 +115,16 @@ function App() {
     <>
       <button onClick={() => setIsOpen(true)}>Schedule a call</button>
 
-      {isOpen && (
-        <FilloutSliderEmbed
-          filloutId="foAdHjd1Duus"
-          inheritParameters
-          parameters={{
-            example: "abc",
-          }}
-          onClose={() => setIsOpen(false)}
-          sliderDirection="left"
-        />
-      )}
+      <FilloutSliderEmbed
+        filloutId="foAdHjd1Duus"
+        inheritParameters
+        parameters={{
+          example: "abc",
+        }}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        sliderDirection="left"
+      />
     </>
   );
 }
@@ -136,7 +134,7 @@ export default App;
 
 ### Popup and Slider embed buttons
 
-If you would prefer not to manage the open state of a popup or slider yourself, you can use `FilloutPopupEmbedButton` or `FilloutSliderEmbedButton`. This will render a button that opens the embed when clicked. These components take the same props as their standalone counterparts (except for `onClose`), but have some extra optional props to customize the button.
+If you would prefer not to manage the open state of a popup or slider yourself, you can use `FilloutPopupEmbedButton` or `FilloutSliderEmbedButton`. This will render a button that opens the embed when clicked. These components take the same props as their standalone counterparts (except for `isOpen` and `onClose`), but have some extra optional props to customize the button.
 
 - `text` - change the button text
 - `color` - change the button background color. the text color will automatically contrast with this as long as you specify a hex code.
@@ -167,9 +165,10 @@ function App() {
 export default App;
 ```
 
-If you need greater control over the button appearance, you can just make your own and conditionally render the standalone embed components.
+If you need greater control over the button appearance, you can just make your own and use it in conjunction with the standalone embed components.
 
 ## Listening for form events
+
 You can listen for certain form events using the `onInit`, `onPageChange` and `onSubmit` props. Each of these give the submission UUID as the first parameter, and the `onPageChange` prop gives the page ID as the second parameter.
 
 ```js
@@ -181,19 +180,16 @@ function App() {
     <FilloutStandardEmbed
       filloutId="4SVaJQNVdrus"
       dynamicResize
-
       onInit={(submissionUuid) => {
         console.log(
           `User started filling out the form (submission ID: ${submissionUuid})`
         );
       }}
-
       onPageChange={(submissionUuid, pageId) => {
         if (pageId === "qTcp") {
           console.log("User is on the review step");
         }
       }}
-
       onSubmit={async (submissionUuid) => {
         const email = await doSomethingOnYourServer(submissionUuid);
         console.log(`${email} finished filling out the form`);

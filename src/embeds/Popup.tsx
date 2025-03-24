@@ -15,7 +15,7 @@ type PopupProps = {
   height?: number | string;
 } & EventProps;
 
-// This is exposed as an standalone embed component,
+// This is exposed as a standalone embed component,
 // but can also be used indirectly with PopupButton
 export const Popup = ({
   isOpen: _isOpen,
