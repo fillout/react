@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
+import { Portal } from "../components/Portal.js";
+import { FormParams, useFilloutEmbed } from "../embed.js";
 import { EventProps, useFilloutEvents } from "../events.js";
 
 export type SliderDirection = "left" | "right";
@@ -35,12 +35,17 @@ export const Slider = ({
     setTimeout(_onClose, 250);
   };
 
-  return createPortal(
-    <SliderContainer isOpen={_isOpen} isOpenAnimate={isOpen} onClose={onClose}>
-      {/* _isOpen should be true from the entry animation starting to the exit animation ending */}
-      {_isOpen && <SliderContent onClose={onClose} {...props} />}
-    </SliderContainer>,
-    document.body
+  return (
+    <Portal>
+      <SliderContainer
+        isOpen={_isOpen}
+        isOpenAnimate={isOpen}
+        onClose={onClose}
+      >
+        {/* _isOpen should be true from the entry animation starting to the exit animation ending */}
+        {_isOpen && <SliderContent onClose={onClose} {...props} />}
+      </SliderContainer>
+    </Portal>
   );
 };
 

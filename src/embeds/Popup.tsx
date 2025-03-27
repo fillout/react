@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import { FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
+import { Portal } from "../components/Portal.js";
+import { FormParams, useFilloutEmbed } from "../embed.js";
 import { EventProps, useFilloutEvents } from "../events.js";
 
 type PopupProps = {
@@ -36,18 +36,19 @@ export const Popup = ({
     setTimeout(_onClose, 250);
   };
 
-  return createPortal(
-    <PopupContainer
-      isOpen={_isOpen}
-      isOpenAnimate={isOpen}
-      onClose={onClose}
-      width={width}
-      height={height}
-    >
-      {/* _isOpen should be true from the entry animation starting to the exit animation ending */}
-      {_isOpen && <PopupContent onClose={onClose} {...props} />}
-    </PopupContainer>,
-    document.body
+  return (
+    <Portal>
+      <PopupContainer
+        isOpen={_isOpen}
+        isOpenAnimate={isOpen}
+        onClose={onClose}
+        width={width}
+        height={height}
+      >
+        {/* _isOpen should be true from the entry animation starting to the exit animation ending */}
+        {_isOpen && <PopupContent onClose={onClose} {...props} />}
+      </PopupContainer>
+    </Portal>
   );
 };
 
