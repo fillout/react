@@ -29,6 +29,6 @@ export const useFilloutEvents = (
     embed,
     "form_submit",
     (data) => events.onSubmit?.(data.submissionUuid),
-    { disabled: !events.onPageChange }
+    { disabled: !events.onSubmit }
   );
 };
