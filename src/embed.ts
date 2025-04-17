@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const FILLOUT_BASE_URL = "https://forms.fillout.com";
+const FILLOUT_BASE_URL = "https://embed.fillout.com";
 
 const generateEmbedId = () => {
   const min = 10000000000000;
