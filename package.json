@@ -21,12 +21,12 @@
     "build": "tsup"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "react": "^18.0 || ^19.0 || ^19.0.0-rc",
+    "react-dom": "^18.0 || ^19.0 || ^19.0.0-rc"
   },
   "devDependencies": {
-    "@types/react": "^18.2.28",
-    "@types/react-dom": "^18.2.13",
     "prettier": "^3.0.3",
     "tsup": "^8.4.0",
     "typescript": "^5.2.2"
