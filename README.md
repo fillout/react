@@ -16,7 +16,7 @@ _Hint: If you're looking to use the Fillout API in Node.js, try [@fillout/api](h
 
 ## Setup
 
-Install with `npm i @fillout/react`, and load the stylesheet with `import "@fillout/react/style.css"`
+Install with `npm i @fillout/react`
 
 ## Embed components
 
@@ -30,7 +30,6 @@ This one is pretty simple.
 
 ```js
 import { FilloutStandardEmbed } from "@fillout/react";
-import "@fillout/react/style.css";
 
 function App() {
   return (
@@ -56,7 +55,6 @@ The `FilloutFullScreenEmbed` component fills the entire page, with `position: fi
 
 ```js
 import { FilloutFullScreenEmbed } from "@fillout/react";
-import "@fillout/react/style.css";
 
 function App() {
   return <FilloutFullScreenEmbed filloutId="foAdHjd1Duus" inheritParameters />;
@@ -76,7 +74,6 @@ You control it using your own state. The `isOpen` and `onClose` props are requir
 ```js
 import { useState } from "react";
 import { FilloutPopupEmbed } from "@fillout/react";
-import "@fillout/react/style.css";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -106,7 +103,6 @@ Similar to the popup embed, this is intended to be used alongside your own butto
 ```js
 import { useState } from "react";
 import { FilloutSliderEmbed } from "@fillout/react";
-import "@fillout/react/style.css";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -143,7 +139,6 @@ If you would prefer not to manage the open state of a popup or slider yourself, 
 
 ```js
 import { FilloutSliderEmbedButton } from "@fillout/react";
-import "@fillout/react/style.css";
 
 function App() {
   return (
@@ -173,7 +168,6 @@ You can listen for certain form events using the `onInit`, `onPageChange` and `o
 
 ```js
 import { FilloutStandardEmbed } from "@fillout/react";
-import "@fillout/react/style.css";
 
 function App() {
   return (
@@ -211,7 +205,6 @@ If you want to take advantage of features that are only available with forms hos
 
 ```js
 import { FilloutFullScreenEmbed } from "@fillout/react";
-import "@fillout/react/style.css";
 
 function App() {
   return (
