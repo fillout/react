@@ -1,3 +1,5 @@
+import "./style.css";
+
 export { Standard as FilloutStandardEmbed } from "./embeds/Standard.js";
 export { FullScreen as FilloutFullScreenEmbed } from "./embeds/FullScreen.js";
 export { Popup as FilloutPopupEmbed } from "./embeds/Popup.js";
