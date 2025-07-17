@@ -1,20 +1,16 @@
 import React, { useState } from "react";
-import { FormParams } from "../embed.js";
+import { EmbedOptions, FormParams } from "../embed.js";
 import { Slider, SliderDirection } from "./Slider.js";
 import { Button, ButtonProps } from "../components/Button.js";
 import { EventProps } from "../events.js";
 
-type SliderButtonProps = {
-  filloutId: string;
-  domain?: string;
-  inheritParameters?: boolean;
-  parameters?: FormParams;
+type SliderButtonProps = EmbedOptions & {
   sliderDirection?: SliderDirection;
 } & EventProps &
   Omit<ButtonProps, "onClick">;
 
 export const SliderButton = ({
-  filloutId,
+
   domain,
   inheritParameters,
   parameters,
@@ -28,6 +24,8 @@ export const SliderButton = ({
   color,
   size,
   float,
+  dynamicResize,
+  ...embedIdentifiers
 }: SliderButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,7 +40,7 @@ export const SliderButton = ({
       />
 
       <Slider
-        filloutId={filloutId}
+        {...embedIdentifiers}
         domain={domain}
         inheritParameters={inheritParameters}
         parameters={parameters}

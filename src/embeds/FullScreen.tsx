@@ -1,16 +1,12 @@
 import React, { useState } from "react";
-import { FormParams, useFilloutEmbed } from "../embed.js";
+import { EmbedOptions, FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
 import { EventProps, useFilloutEvents } from "../events.js";
 
-type FullScreenProps = {
-  filloutId: string;
-  domain?: string;
-  inheritParameters?: boolean;
-  parameters?: FormParams;
-} & EventProps;
+type FullScreenProps = EmbedOptions & EventProps;
 
 export const FullScreen = ({
+  customFormLink,
   filloutId,
   domain,
   inheritParameters,
@@ -22,6 +18,7 @@ export const FullScreen = ({
 }: FullScreenProps) => {
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
+    customFormLink,
     filloutId,
     domain,
     inheritParameters,

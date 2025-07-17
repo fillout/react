@@ -21,13 +21,17 @@ type FormIdentifier = XOR<{
   customFormLink: string;
 }>
 
-type EmbedOptions = FormIdentifier & {
-  domain?: string;
+type CommonEmbedOptions = {
   inheritParameters?: boolean;
   parameters?: FormParams;
   dynamicResize?: boolean;
-};
+  domain?: string;
+}
 
+/**
+ * Strict exclusive OR for public-facing component API.
+ */
+export type EmbedOptions = FormIdentifier & CommonEmbedOptions;
 
 type NormalizeUrlParams =  {
   customFormLink?: string;
@@ -56,7 +60,13 @@ const normalizeFormIdentifier = ({
   throw new Error("Either filloutId or customFormLink must be provided.");
 };
 
-
+/**
+ * Loose type for internal use.
+ */
+type EmbedHookOptions = CommonEmbedOptions & {
+  customFormLink?: string;
+  filloutId?: string;
+}
 export const useFilloutEmbed = ({
   customFormLink,
   filloutId,
@@ -64,7 +74,7 @@ export const useFilloutEmbed = ({
   inheritParameters,
   parameters,
   dynamicResize,
-}: EmbedOptions) => {
+}: EmbedHookOptions) => {
   const [searchParams, setSearchParams] = useState<URLSearchParams>();
   const [embedId, setEmbedId] = useState<string>();
 
