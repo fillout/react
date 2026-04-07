@@ -20,7 +20,9 @@ Install with `npm i @fillout/react`
 
 ## Embed components
 
-There is a component for each embed type. All of them require the `filloutId` prop, which is the id of your form. This code is easy to spot in the url of the editor or the live form, for example, `forms.fillout.com/t/foAdHjd1Duus`.
+There is a component for each embed type. + All of them require **either** a `filloutId` (your form’s ID) **or** a [custom form link](https://www.fillout.com/help/customize-form-share-link). They are mutually exclusive.
+
+This code is easy to spot in the url of the editor or the live form, for example, `forms.fillout.com/t/foAdHjd1Duus`.
 
 All embed components allow you to pass URL parameters using the optional `parameters` prop, and you can also use `inheritParameters` to make the form inherit the parameters from the host page's url.
 
@@ -209,6 +211,32 @@ import { FilloutFullScreenEmbed } from "@fillout/react";
 function App() {
   return (
     <FilloutFullScreenEmbed filloutId="foAdHjd1Duus" domain="example.com" />
+  );
+}
+
+export default App;
+```
+
+> ⚠️ If you pass `customFormLink` as a full URL, the full URL is used as-is, and `domain` will be ignored.
+
+```js
+import { FilloutFullScreenEmbed } from "@fillout/react";
+
+function App() {
+  return (
+    // Using just the custom form ending
+    // URL will be https://example.com/my-custom-form
+    <FilloutFullScreenEmbed
+        customFormLink="my-custom-form"
+        domain="example.com"
+    />
+
+    // Using the full form link
+    // URL will be https://forms.mydomain.com/my-custom-form
+    <FilloutFullScreenEmbed
+        customFormLink="forms.mydomain.com/my-custom-form"
+        domain="example.com"
+    />
   );
 }
 

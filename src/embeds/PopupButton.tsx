@@ -1,21 +1,16 @@
 import React, { useState } from "react";
-import { FormParams } from "../embed.js";
+import { EmbedOptions, FormParams } from "../embed.js";
 import { Popup } from "./Popup.js";
 import { Button, ButtonProps } from "../components/Button.js";
 import { EventProps } from "../events.js";
 
-type PopupButtonProps = {
-  filloutId: string;
-  domain?: string;
-  inheritParameters?: boolean;
-  parameters?: FormParams;
+type PopupButtonProps = EmbedOptions & {
   width?: number | string;
   height?: number | string;
 } & EventProps &
   Omit<ButtonProps, "onClick">;
 
 export const PopupButton = ({
-  filloutId,
   domain,
   inheritParameters,
   parameters,
@@ -30,6 +25,8 @@ export const PopupButton = ({
   color,
   size,
   float,
+  dynamicResize,
+  ...embedIdentifiers
 }: PopupButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,7 +41,7 @@ export const PopupButton = ({
       />
 
       <Popup
-        filloutId={filloutId}
+        {...embedIdentifiers}
         domain={domain}
         inheritParameters={inheritParameters}
         parameters={parameters}

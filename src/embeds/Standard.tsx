@@ -1,18 +1,13 @@
 import React, { useState } from "react";
-import { FormParams, useFilloutEmbed } from "../embed.js";
+import { EmbedOptions, FormParams, useFilloutEmbed } from "../embed.js";
 import { Loading } from "../components/Loading.js";
 import { useMessageListener } from "../messages.js";
 import { EventProps, useFilloutEvents } from "../events.js";
 
-type StandardProps = {
-  filloutId: string;
-  domain?: string;
-  inheritParameters?: boolean;
-  parameters?: FormParams;
-  dynamicResize?: boolean;
-} & EventProps;
+type StandardProps = EmbedOptions & EventProps;
 
 export const Standard = ({
+  customFormLink,
   filloutId,
   domain,
   inheritParameters,
@@ -25,6 +20,7 @@ export const Standard = ({
 }: StandardProps) => {
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
+    customFormLink,
     filloutId,
     domain,
     inheritParameters,

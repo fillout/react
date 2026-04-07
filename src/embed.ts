@@ -11,21 +11,70 @@ const generateEmbedId = () => {
 
 export type FormParams = Record<string, string | undefined>;
 
-type EmbedOptions = {
+type XOR<T1, T2> =
+    (T1 & {[k in Exclude<keyof T2, keyof T1>]?: never}) |
+    (T2 & {[k in Exclude<keyof T1, keyof T2>]?: never});
+
+type FormIdentifier = XOR<{
   filloutId: string;
-  domain?: string;
+},{
+  customFormLink: string;
+}>
+
+type CommonEmbedOptions = {
   inheritParameters?: boolean;
   parameters?: FormParams;
   dynamicResize?: boolean;
+  domain?: string;
+}
+
+/**
+ * Strict exclusive OR for public-facing component API.
+ */
+export type EmbedOptions = FormIdentifier & CommonEmbedOptions;
+
+type NormalizeUrlParams =  {
+  customFormLink?: string;
+  filloutId?: string;
+  origin: string;
 };
 
+const normalizeFormIdentifier = ({
+  customFormLink,
+  filloutId,
+  origin,
+}: NormalizeUrlParams): URL => {
+  if (customFormLink) {
+    // Accomodate full links or just the form identifier.
+    try {
+      return new URL(customFormLink);
+    } catch {
+      return new URL(customFormLink, origin);
+    }
+  }
+
+  if (filloutId) {
+    return new URL(`/t/${encodeURIComponent(filloutId)}`, origin);
+  }
+
+  throw new Error("Either filloutId or customFormLink must be provided.");
+};
+
+/**
+ * Loose type for internal use.
+ */
+type EmbedHookOptions = CommonEmbedOptions & {
+  customFormLink?: string;
+  filloutId?: string;
+}
 export const useFilloutEmbed = ({
+  customFormLink,
   filloutId,
   domain,
   inheritParameters,
   parameters,
   dynamicResize,
-}: EmbedOptions) => {
+}: EmbedHookOptions) => {
   const [searchParams, setSearchParams] = useState<URLSearchParams>();
   const [embedId, setEmbedId] = useState<string>();
 
@@ -39,7 +88,7 @@ export const useFilloutEmbed = ({
 
   // iframe url
   const origin = domain ? `https://${domain}` : FILLOUT_BASE_URL;
-  const iframeUrl = new URL(`${origin}/t/${encodeURIComponent(filloutId)}`);
+  const iframeUrl = normalizeFormIdentifier({filloutId, origin, customFormLink});
 
   // inherit query params
   if (inheritParameters && searchParams) {

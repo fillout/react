@@ -1,16 +1,12 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { Loading } from "../components/Loading.js";
 import { Portal } from "../components/Portal.js";
-import { FormParams, useFilloutEmbed } from "../embed.js";
+import { EmbedOptions, FormParams, useFilloutEmbed } from "../embed.js";
 import { EventProps, useFilloutEvents } from "../events.js";
 
 export type SliderDirection = "left" | "right";
 
-type SliderProps = {
-  filloutId: string;
-  domain?: string;
-  inheritParameters?: boolean;
-  parameters?: FormParams;
+type SliderProps = EmbedOptions & {
   sliderDirection?: SliderDirection;
   isOpen: boolean;
   onClose: () => void;
@@ -50,6 +46,7 @@ export const Slider = ({
 };
 
 const SliderContent = ({
+  customFormLink,
   filloutId,
   domain,
   inheritParameters,
@@ -63,6 +60,7 @@ const SliderContent = ({
 }: Omit<SliderProps, "isOpen">) => {
   const [loading, setLoading] = useState(true);
   const embed = useFilloutEmbed({
+    customFormLink,
     filloutId,
     domain,
     inheritParameters,
