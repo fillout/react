@@ -4,7 +4,7 @@ import { useMessageListener } from "./messages.js";
 export type EventProps = {
   onInit?: (submissionUuid: string) => void;
   onPageChange?: (submissionUuid: string, pageId: string) => void;
-  onSubmit?: (submissionUuid: string) => void;
+  onSubmit?: (submissionUuid: string, data?: Record<string, unknown>) => void;
 };
 
 export const useFilloutEvents = (
@@ -28,7 +28,13 @@ export const useFilloutEvents = (
   useMessageListener(
     embed,
     "form_submit",
-    (data) => events.onSubmit?.(data.submissionUuid),
+    (data) => {
+      // Pass through any additional data from the embed (e.g. submission answers)
+      // as the second parameter. This is backward compatible — existing consumers
+      // that only use submissionUuid will ignore the second param.
+      const { type, embedId, submissionUuid, ...rest } = data;
+      events.onSubmit?.(submissionUuid, Object.keys(rest).length > 0 ? rest : undefined);
+    },
     { disabled: !events.onSubmit }
   );
 };
