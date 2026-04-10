@@ -48,10 +48,12 @@ export const useFilloutEmbed = ({
   if (!searchParams || !embedId) return;
 
   // iframe url
+  const isLocalhost =
+    domain === "localhost" || domain?.startsWith("localhost:");
   const origin = domain
     ? domain.startsWith("http://") || domain.startsWith("https://")
       ? domain
-      : domain.startsWith("localhost")
+      : isLocalhost
       ? `http://${domain}`
       : `https://${domain}`
     : FILLOUT_BASE_URL;
