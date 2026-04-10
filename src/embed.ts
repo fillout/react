@@ -38,7 +38,13 @@ export const useFilloutEmbed = ({
   if (!searchParams || !embedId) return;
 
   // iframe url
-  const origin = domain ? `https://${domain}` : FILLOUT_BASE_URL;
+  const origin = domain
+    ? domain.startsWith("http://") || domain.startsWith("https://")
+      ? domain
+      : domain.startsWith("localhost")
+      ? `http://${domain}`
+      : `https://${domain}`
+    : FILLOUT_BASE_URL;
   const iframeUrl = new URL(`${origin}/t/${encodeURIComponent(filloutId)}`);
 
   // inherit query params
