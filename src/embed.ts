@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
 
-const FILLOUT_BASE_URL = "https://embed.fillout.com";
+const getDefaultBaseUrl = () => {
+  try {
+    // Allow overriding via Vite env for staging/local dev
+    // @ts-ignore - import.meta.env is injected by Vite at build time
+    const envUrl = import.meta.env?.VITE_FILLOUT_EMBED_URL;
+    if (envUrl) return envUrl;
+  } catch {}
+  return "https://embed.fillout.com";
+};
+
+const FILLOUT_BASE_URL = getDefaultBaseUrl();
 
 const generateEmbedId = () => {
   const min = 10000000000000;
@@ -38,7 +48,15 @@ export const useFilloutEmbed = ({
   if (!searchParams || !embedId) return;
 
   // iframe url
-  const origin = domain ? `https://${domain}` : FILLOUT_BASE_URL;
+  const isLocalhost =
+    domain === "localhost" || domain?.startsWith("localhost:");
+  const origin = domain
+    ? domain.startsWith("http://") || domain.startsWith("https://")
+      ? domain
+      : isLocalhost
+      ? `http://${domain}`
+      : `https://${domain}`
+    : FILLOUT_BASE_URL;
   const iframeUrl = new URL(`${origin}/t/${encodeURIComponent(filloutId)}`);
 
   // inherit query params
